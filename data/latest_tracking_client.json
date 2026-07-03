@@ -7,8 +7,8 @@
     "company": "LATAM Uniformes"
   },
   "summary": {
-    "totalShipments": 6036,
-    "delivered": 5965,
+    "totalShipments": 100,
+    "delivered": 100,
     "inTransit": 27,
     "scheduled": 19,
     "retry": 3,

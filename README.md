@@ -1,29 +1,20 @@
-# Lazarus Dashboard
+# Lazarus Tracking Intelligence
 
-Dashboard web estático alimentado por `data/latest_tracking_client.json`.
+Dashboard web estático para visibilidad operativa de envíos, estados, cumplimiento, tercerizaciones, detalle por orden y alertas de quiebre de stock.
 
-## Uso local
+## Estructura
 
-Abre `index.html` directamente en el navegador o usa una extensión tipo Live Server.
+- `index.html`: interfaz principal.
+- `css/styles.css`: estilos visuales.
+- `js/app.js`: autenticación local, lectura de datos, filtros, KPIs y detalle.
+- `data/latest_tracking_client.json`: fuente operativa publicada por Polaris/Lazarus.
+- `assets/branding/lazarus.png`: ícono de marca.
 
-## Publicación en GitHub Pages
+## Usuarios
 
-1. Sube estos archivos al repositorio.
-2. En GitHub: Settings > Pages.
-3. Source: Deploy from a branch.
-4. Branch: main / root.
-5. Guarda los cambios.
+- `DHLUniformes` / `Elmejoranalista.`
+- `LATAMUniformes` / `Latam_Uniformes2026`
 
-La URL quedará disponible como:
+## Publicación
 
-`https://Gersxnn0804.github.io/Lazarus/`
-
-## Actualización de datos
-
-Reemplaza el archivo:
-
-`data/latest_tracking_client.json`
-
-Luego realiza commit y push.
-
-Si el JSON no existe o no se puede leer, el dashboard queda vacío automáticamente.
+Subir todo el contenido a GitHub Pages desde `main / root`.

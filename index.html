@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#07111f" />
   <title>Lazarus | Tracking Intelligence</title>
-  <link rel="stylesheet" href="css/styles.css?v=lazarus-logo-size-20260702" />
+  <link rel="icon" type="image/png" href="assets/branding/lazarus.png" />
+  <link rel="stylesheet" href="css/styles.css?v=wms-dashboard-20260706" />
 </head>
 <body>
   <section id="loginScreen" class="login-screen">
@@ -27,7 +28,6 @@
         <div class="login-card-header">
           <div class="login-lock">◆</div>
           <span>Acceso autorizado</span>
-          
         </div>
 
         <div class="login-copy">
@@ -64,7 +64,6 @@
         <div class="brand-logo">
           <img src="assets/branding/lazarus.png" alt="Lazarus icon" />
         </div>
-
         <div class="brand-text">
           <h1>Lazarus</h1>
           <p>Tracking Intelligence</p>
@@ -83,11 +82,11 @@
           <div class="data-card-title">
             <span class="data-icon">◉</span>
             <div>
-              <span>Estado de datos</span>
+              <span>Estado de lectura</span>
               <strong id="sourceStatus">Sin validar</strong>
             </div>
           </div>
-          <small id="sourceMeta">Esperando lectura...</small>
+          <small id="sourceMeta">Esperando actualización...</small>
         </div>
 
         <button id="logoutBtn" class="logout-btn"><span>↩</span>Cerrar sesión</button>
@@ -123,7 +122,7 @@
         <article class="kpi-card danger">
           <div class="kpi-card-header"><span>Tercerizados</span><i>⇄</i></div>
           <strong id="kpiCritical">0</strong>
-          <small>Entregados por tercero</small>
+          <small>Gestión por tercero</small>
         </article>
 
         <article class="kpi-card dark">
@@ -142,7 +141,7 @@
       <section id="emptyState" class="empty-state hidden">
         <div class="empty-icon">◇</div>
         <h3>No hay datos cargados</h3>
-        <p>El dashboard queda vacío hasta que exista <strong>data/latest_tracking_client.json</strong> con un arreglo válido de envíos.</p>
+        <p>El dashboard queda vacío hasta que exista información operativa disponible para lectura.</p>
       </section>
 
       <section class="charts-grid analytics-grid" id="analytics">
@@ -166,7 +165,7 @@
           <div class="panel-header">
             <div>
               <h3>Termómetro de quiebres de stock</h3>
-              <p>Top de ítems con mayor índice de quiebre informado por el JSON.</p>
+              <p>Ítems con mayor impacto por órdenes afectadas y unidades faltantes.</p>
             </div>
           </div>
 
@@ -189,10 +188,20 @@
             </div>
 
             <div class="stockout-content">
-              <h4>Top 5 ítems críticos</h4>
+              <h4>Ítems críticos detectados</h4>
               <div id="stockoutList" class="stockout-list empty-stockout"></div>
             </div>
           </div>
+        </article>
+
+        <article class="panel status-panel">
+          <div class="panel-header">
+            <div>
+              <h3>Estados operativos</h3>
+              <p>Distribución dinámica de todos los estados presentes en la información publicada.</p>
+            </div>
+          </div>
+          <div id="statusDistribution" class="status-distribution"></div>
         </article>
       </section>
 
@@ -280,6 +289,6 @@
   </div>
 
   <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
-  <script src="js/app.js?v=20260701-thermometer"></script>
+  <script src="js/app.js?v=wms-dashboard-20260706"></script>
 </body>
 </html>

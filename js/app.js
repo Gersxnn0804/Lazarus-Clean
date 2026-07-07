@@ -55,6 +55,7 @@ const el = {
   donutLegend: $("donutLegend"),
   stockoutThermometer: $("stockoutThermometer"),
   stockoutList: $("stockoutList"),
+  statusDistribution: $("statusDistribution"),
 
   kpiTotal: $("kpiTotal"),
   kpiDelivered: $("kpiDelivered"),
@@ -164,7 +165,7 @@ function renderEmptyStockout() {
   el.stockoutList.innerHTML = `
     <div class="stockout-empty-card">
       <strong>Sin quiebres informados</strong>
-      <span>El JSON actual no contiene datos por ítem/SKU para calcular este indicador.</span>
+      <span>La información actual no contiene datos por ítem/SKU para calcular este indicador.</span>
     </div>
   `;
 }
@@ -236,7 +237,7 @@ async function fetchJsonFromAvailablePaths() {
     }
   }
 
-  throw lastError || new Error("No fue posible leer el JSON.");
+  throw lastError || new Error("No fue posible leer la fuente operativa.");
 }
 
 function getCurrentViewState() {
@@ -268,7 +269,6 @@ function restoreCurrentViewState(viewState) {
   if (!viewState) return;
 
   el.searchInput.value = viewState.search || "";
-
   setSelectValueIfExists(el.statusFilter, viewState.status);
   setSelectValueIfExists(el.categoryFilter, viewState.category);
   setSelectValueIfExists(el.dateFilter, viewState.date);
@@ -280,12 +280,12 @@ function restoreCurrentViewState(viewState) {
 async function loadData({ silent = false } = {}) {
   try {
     if (!silent) {
-      el.sourceStatus.textContent = "Leyendo JSON";
-      el.sourceMeta.textContent = `Consultando data/${DATA_FILE}...`;
+      el.sourceStatus.textContent = "Leyendo datos";
+      el.sourceMeta.textContent = `Consultando fuente operativa...`;
     }
 
     if (window.location.protocol === "file:") {
-      resetDashboard("Estás abriendo el HTML directo desde Windows. Para leer JSON usa GitHub Pages, Live Server o un servidor local.");
+      resetDashboard("Estás abriendo el HTML directo desde Windows. Para cargar la información usa GitHub Pages, Live Server o un servidor local.");
       return;
     }
 
@@ -293,58 +293,75 @@ async function loadData({ silent = false } = {}) {
     const data = result.data;
 
     if (!data || !Array.isArray(data.shipments)) {
-      resetDashboard("El JSON existe, pero no contiene un arreglo válido en la propiedad shipments.");
+      resetDashboard("La fuente existe, pero no contiene un arreglo válido de envíos.");
       return;
     }
 
-const viewState = getCurrentViewState();
-const shouldPreserveView = Boolean(state.raw);
-  
-  state.raw = data;
-  state.shipments = data.shipments;
-  state.filtered = [...state.shipments];
-  
-  if (!shouldPreserveView) {
-    state.selectedShipmentId = null;
-    state.page = 1;
-  }
-  
-  el.emptyState.classList.add("hidden");
-  el.sourceStatus.textContent = "Datos cargados";
-  el.sourceMeta.textContent = `${formatNumber(state.shipments.length)} registros · Generado ${formatDateTime(data.generatedAt)} · Auto refresh 60s`;
-  
-  renderFilters();
-  
-  if (shouldPreserveView) {
-    restoreCurrentViewState(viewState);
-  }
-  
-  applyFilters({ preservePage: shouldPreserveView });
-  renderSummary();
-  renderAnalytics();
-  
-  const selectedStillExists = state.selectedShipmentId
-    && state.shipments.some(item => getShipmentId(item) === state.selectedShipmentId);
-  
-  if (selectedStillExists) {
-    renderDetail(state.selectedShipmentId);
-  } else {
-    state.selectedShipmentId = null;
-    renderEmptyDetail();
-  }
-  
-  if (!silent) showToast("JSON cargado correctamente.");
+    const viewState = getCurrentViewState();
+    const shouldPreserveView = Boolean(state.raw);
+
+    state.raw = data;
+    state.shipments = data.shipments;
+    state.filtered = [...state.shipments];
+
+    if (!shouldPreserveView) {
+      state.selectedShipmentId = null;
+      state.page = 1;
+    }
+
+    el.emptyState.classList.add("hidden");
+    el.sourceStatus.textContent = "Datos cargados";
+    el.sourceMeta.textContent = `${formatNumber(state.shipments.length)} registros · Generado ${formatDateTime(data.generatedAt)} · Auto refresh 60s`;
+
+    renderFilters();
+
+    if (shouldPreserveView) {
+      restoreCurrentViewState(viewState);
+    }
+
+    applyFilters({ preservePage: shouldPreserveView });
+    renderSummary();
+    renderAnalytics();
+
+    const selectedStillExists = state.selectedShipmentId
+      && state.shipments.some(item => getShipmentId(item) === state.selectedShipmentId);
+
+    if (selectedStillExists) {
+      renderDetail(state.selectedShipmentId);
+    } else {
+      state.selectedShipmentId = null;
+      renderEmptyDetail();
+    }
+
+    if (!silent) showToast("Datos actualizados correctamente.");
   } catch (error) {
-    resetDashboard(`No fue posible leer data/${DATA_FILE}. Verifica que el archivo exista y que la página esté publicada o ejecutada con Live Server.`);
+    resetDashboard(`No fue posible leer la fuente operativa. Verifica que el archivo exista y que la página esté publicada o ejecutada con Live Server.`);
     console.error(error);
   }
+}
+
+function getRawStatus(item) {
+  return pickFirst(
+    item?.status,
+    item?.estado,
+    item?.state,
+    item?.lastEventLabel,
+    item?.lastStatus,
+    item?.trackingStatus,
+    item?.shipmentStatus,
+    "Sin estado"
+  );
+}
+
+function getRawCategory(item) {
+  return pickFirst(item?.category, item?.categoria, item?.group, item?.statusGroup, "Sin categoría");
 }
 
 function renderFilters() {
   clearFilterOptions();
 
-  const statuses = Object.keys(countBy(state.shipments, "status")).sort();
-  const categories = Object.keys(countBy(state.shipments, "category")).sort();
+  const statuses = [...new Set(state.shipments.map(item => getRawStatus(item)).filter(Boolean))].sort((a, b) => String(a).localeCompare(String(b), "es", { numeric: true }));
+  const categories = [...new Set(state.shipments.map(item => getRawCategory(item)).filter(Boolean))].sort((a, b) => String(a).localeCompare(String(b), "es", { numeric: true }));
   const dates = [...new Set(state.shipments.map(item => item.lastEventDate).filter(Boolean))].sort().reverse();
 
   statuses.forEach(status => {
@@ -364,34 +381,38 @@ function getSummaryValue(key) {
   return Number(state.raw?.summary?.[key] || 0);
 }
 
-function countStatusByWords(words) {
-  return state.shipments.filter(item => {
-    const text = [
-      item.status,
-      item.category,
-      item.lastEventLabel,
-      item.lastEventDescription
-    ].join(" ").toLowerCase();
-
-    return words.some(word => text.includes(word));
-  }).length;
-}
 function normalizeSearchText(value) {
   return String(value || "")
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase();
+    .toLowerCase()
+    .trim();
+}
+
+function countStatusByWords(words) {
+  const normalizedWords = words.map(normalizeSearchText);
+
+  return state.shipments.filter(item => {
+    const text = normalizeSearchText([
+      getRawStatus(item),
+      getRawCategory(item),
+      item.lastEventLabel,
+      item.lastEventDescription
+    ].join(" "));
+
+    return normalizedWords.some(word => text.includes(word));
+  }).length;
 }
 
 function isDeliveredShipment(item) {
   const text = normalizeSearchText([
-    item.status,
-    item.category,
+    getRawStatus(item),
+    getRawCategory(item),
     item.lastEventLabel,
     item.lastEventDescription
   ].join(" "));
 
-  return text.includes("entregado") || text.includes("finalizado");
+  return text.includes("entregado") || text.includes("finalizado") || text.includes("delivered");
 }
 
 function isThirdPartyShipment(item) {
@@ -414,7 +435,6 @@ function isThirdPartyShipment(item) {
 
 function getThirdPartyTotal() {
   const summary = state.raw?.summary || {};
-
   const summaryValue = pickFirst(
     summary.thirdParty,
     summary.thirdparty,
@@ -423,39 +443,45 @@ function getThirdPartyTotal() {
     summary.tercerizados,
     summary.tercerizado,
     summary.outsourced,
-    summary.subcontracted
+    summary.subcontracted,
+    summary.critical
   );
 
-  if (summaryValue !== "") {
-    return Number(summaryValue) || 0;
-  }
+  if (summaryValue !== "") return Number(summaryValue) || 0;
 
   return state.shipments.filter(isThirdPartyShipment).length;
 }
 
 function getSignedByValue(item) {
   const signedBy = pickFirst(
-    item.signedBy,
-    item.signed_by,
-    item.signedby,
-    item["signed by"],
-    item["Signed by"],
-    item["Signed By"],
-    item["SIGNED BY"],
-    item.o,
-    item.O
+    item?.signedBy,
+    item?.signed_by,
+    item?.signedby,
+    item?.["signed by"],
+    item?.["Signed by"],
+    item?.["Signed By"],
+    item?.["SIGNED BY"],
+    item?.receivedBy,
+    item?.received_by,
+    item?.receivedby,
+    item?.receiver,
+    item?.recipient,
+    item?.receivedByName,
+    item?.columnO,
+    item?.colO,
+    item?.o,
+    item?.O
   );
 
   if (signedBy) return signedBy;
-
   return isDeliveredShipment(item) ? "Entregado" : "";
 }
 
 function renderSummary() {
   const total = getSummaryValue("totalShipments") || state.shipments.length;
-  const delivered = getSummaryValue("delivered") || countStatusByWords(["entregado", "finalizado"]);
-  const inTransit = getSummaryValue("inTransit") || countStatusByWords(["tránsito", "transito", "ruta", "proceso"]);
-  const scheduled = getSummaryValue("scheduled") || countStatusByWords(["programado", "agendado"]);
+  const delivered = getSummaryValue("delivered") || countStatusByWords(["entregado", "finalizado", "delivered"]);
+  const inTransit = getSummaryValue("inTransit") || countStatusByWords(["tránsito", "transito", "ruta", "proceso", "in transit"]);
+  const scheduled = getSummaryValue("scheduled") || countStatusByWords(["programado", "agendado", "scheduled"]);
   const retry = getSummaryValue("retry") || countStatusByWords(["reintento", "retry"]);
   const thirdParty = getThirdPartyTotal();
   const returns = getSummaryValue("returns") || countStatusByWords(["devolución", "devolucion", "retorno", "return"]);
@@ -482,11 +508,12 @@ function renderDonutLegend(items) {
 
 function renderCompliance() {
   const total = getSummaryValue("totalShipments") || state.shipments.length;
-  const delivered = getSummaryValue("delivered") || countStatusByWords(["entregado", "finalizado"]);
-  const inTransit = getSummaryValue("inTransit") || countStatusByWords(["tránsito", "transito", "ruta", "proceso"]);
-  const pending = (getSummaryValue("scheduled") || countStatusByWords(["programado", "agendado"])) + (getSummaryValue("retry") || countStatusByWords(["reintento", "retry"]));
+  const delivered = getSummaryValue("delivered") || countStatusByWords(["entregado", "finalizado", "delivered"]);
+  const inTransit = getSummaryValue("inTransit") || countStatusByWords(["tránsito", "transito", "ruta", "proceso", "in transit"]);
+  const pending = (getSummaryValue("scheduled") || countStatusByWords(["programado", "agendado", "scheduled"])) + (getSummaryValue("retry") || countStatusByWords(["reintento", "retry"]));
   const returns = getSummaryValue("returns") || countStatusByWords(["devolución", "devolucion", "retorno", "return"]);
-  const thirdParty = getThirdPartyTotal();  const deliveredRate = percent(delivered, total);
+  const thirdParty = getThirdPartyTotal();
+  const deliveredRate = percent(delivered, total);
 
   el.donutChart.className = "donut";
   el.donutChart.style.setProperty("--value", deliveredRate);
@@ -497,7 +524,47 @@ function renderCompliance() {
     { label: "En tránsito", value: inTransit, rate: percent(inTransit, total), className: "blue" },
     { label: "Pendientes", value: pending, rate: percent(pending, total), className: "amber" },
     { label: "Devoluciones", value: returns, rate: percent(returns, total), className: "violet" },
-    { label: "Tercerizados", value: thirdParty, rate: percent(thirdParty, total), className: "red" }  ]);
+    { label: "Tercerizados", value: thirdParty, rate: percent(thirdParty, total), className: "red" }
+  ]);
+}
+
+function renderStatusDistribution() {
+  if (!el.statusDistribution) return;
+
+  const total = state.shipments.length;
+  const entries = Object.entries(countBy(state.shipments.map(item => ({ status: getRawStatus(item) })), "status"))
+    .filter(([label]) => label && label !== "Sin información")
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "es", { numeric: true }));
+
+  if (!entries.length) {
+    el.statusDistribution.innerHTML = `
+      <div class="status-empty-card">
+        <strong>Sin estados disponibles</strong>
+        <span>No hay registros suficientes para calcular la distribución.</span>
+      </div>
+    `;
+    return;
+  }
+
+  const maxValue = Math.max(...entries.map(([, value]) => value), 1);
+
+  el.statusDistribution.innerHTML = entries.map(([label, value]) => {
+    const width = percent(value, maxValue);
+    const rate = percent(value, total);
+    const className = getStatusClass(label);
+
+    return `
+      <div class="status-distribution-row">
+        <div class="status-distribution-head">
+          <span class="status-pill ${className}">${escapeHtml(label)}</span>
+          <strong>${formatNumber(value)} · ${formatPercent(rate)}%</strong>
+        </div>
+        <div class="status-distribution-track">
+          <div class="status-distribution-fill ${className}" style="width:${Math.max(Math.min(width, 100), 2)}%"></div>
+        </div>
+      </div>
+    `;
+  }).join("");
 }
 
 function getFirstArray(...candidates) {
@@ -510,24 +577,20 @@ function getStockoutSource() {
     state.raw?.inventoryThermometer?.items,
     state.raw?.inventoryThermometer?.criticalItems,
     state.raw?.inventoryThermometer?.data,
-
     state.raw?.stockBreaks,
     state.raw?.stockBreakItems,
     state.raw?.stockBreaksByItem,
     state.raw?.stockoutItems,
     state.raw?.stockouts,
-    state.raw?.stockoutIndex,
     state.raw?.quiebresStock,
     state.raw?.itemsQuiebreStock,
     state.raw?.itemsConQuiebre,
-
     state.raw?.analytics?.stockBreaks,
     state.raw?.analytics?.stockBreakItems,
     state.raw?.analytics?.stockBreaksByItem,
     state.raw?.analytics?.stockoutItems,
     state.raw?.analytics?.stockouts,
     state.raw?.analytics?.quiebresStock,
-
     state.raw?.summary?.stockBreaks,
     state.raw?.summary?.stockBreakItems,
     state.raw?.summary?.stockBreaksByItem,
@@ -540,7 +603,6 @@ function getStockoutSource() {
 function normalizeStockoutValue(item) {
   const rawValue = item.stockoutIndex
     ?? item.value
-    ?? item.severity
     ?? item.indiceQuiebre
     ?? item.indice_quiebre
     ?? item.breakIndex
@@ -550,33 +612,27 @@ function normalizeStockoutValue(item) {
     ?? item.rate
     ?? item.percentage
     ?? item.percent
+    ?? item.severity
+    ?? item.count
+    ?? item.missingUnits
+    ?? item.unidadesFaltantes
+    ?? item.quiebres
+    ?? item.stockBreaks
     ?? 0;
 
   let value = Number(rawValue);
   if (!Number.isFinite(value)) value = 0;
 
   const unit = String(item.unit || item.unitLabel || item.unidad || "").trim();
+  const hasExplicitPercent = unit === "%" || "stockoutIndex" in item || "value" in item;
 
-  /*
-    Polaris puede enviar dos tipos de índice:
-    - stockoutIndex/value con unit "%": ya vienen como porcentaje real.
-      Ejemplo: 0.8 significa 0.8%, NO 80%.
-    - rate/percentage/percent como ratio decimal sin unit "%": 0.8 significa 80%.
-  */
-  const shouldConvertRatioToPercent =
-    value > 0 &&
-    value <= 1 &&
-    unit !== "%" &&
-    !("stockoutIndex" in item) &&
-    !("value" in item) &&
-    (
-      "rate" in item ||
-      "percentage" in item ||
-      "percent" in item ||
-      "severity" in item
-    );
-
-  if (shouldConvertRatioToPercent) {
+  if (value > 0 && value <= 1 && !hasExplicitPercent && (
+    "rate" in item ||
+    "percentage" in item ||
+    "percent" in item ||
+    "indiceQuiebre" in item ||
+    "indice_quiebre" in item
+  )) {
     value = value * 100;
   }
 
@@ -586,79 +642,41 @@ function normalizeStockoutValue(item) {
 function normalizeStockoutItems() {
   const explicitItems = getStockoutSource();
 
-  if (explicitItems.length) {
-    return explicitItems.map((item) => {
-      const label = item.item
-        || item.sku
-        || item.itemCode
-        || item.productCode
-        || item.material
-        || item.codigo
-        || item.code
-        || item.name
-        || item.description
-        || item.descripcion;
+  if (!explicitItems.length) return [];
 
-      const affectedOrders = Number(item.affectedOrders || item.ordenesAfectadas || 0);
-      const missingUnits = Number(item.missingUnits || item.unidadesFaltantes || 0);
-      const requiredUnits = Number(item.requiredUnits || item.unidadesRequeridas || 0);
-      const availableUnits = Number(item.availableUnits ?? item.unidadesDisponibles ?? 0);
-      const totalAuditOrders = Number(item.totalAuditOrders || state.raw?.inventoryThermometer?.totalAuditOrders || 0);
-      const stockoutIndex = normalizeStockoutValue(item);
+  return explicitItems.map((item) => {
+    const label = item.item
+      || item.sku
+      || item.itemCode
+      || item.productCode
+      || item.material
+      || item.codigo
+      || item.code
+      || item.name
+      || item.description
+      || item.descripcion;
 
-      const unit = item.unit
-        || item.unitLabel
-        || item.unidad
-        || ("stockoutIndex" in item || "value" in item || "severity" in item ? "%" : "");
-
-      return {
-        label: safeText(label),
-        description: safeText(item.description || item.descripcion || ""),
-        stockoutIndex,
-        value: stockoutIndex,
-        unit,
-        affectedOrders,
-        missingUnits,
-        requiredUnits,
-        availableUnits,
-        totalAuditOrders,
-        affectedRatio: safeText(item.affectedRatio || `${affectedOrders}/${totalAuditOrders || 0}`),
-        level: safeText(item.level || item.nivel || ""),
-        trend: safeText(item.trend || item.tendencia || ""),
-        orderTypes: Array.isArray(item.orderTypes) ? item.orderTypes : []
-      };
-    })
-      .filter(item => item.label !== "Sin información" && item.affectedOrders > 0)
-      .sort((a, b) => {
-        /*
-          Orden oficial del termómetro:
-          1. Más órdenes afectadas.
-          2. Si empatan, más unidades faltantes.
-          3. Si siguen empatadas, mayor índice porcentual.
-        */
-        return b.affectedOrders - a.affectedOrders
-          || b.missingUnits - a.missingUnits
-          || b.stockoutIndex - a.stockoutIndex;
-      });
-  }
-
-  return [];
+    return {
+      label: safeText(label),
+      stockoutIndex: normalizeStockoutValue(item),
+      affectedOrders: Number(item.affectedOrders ?? item.orders ?? item.orderCount ?? item.ordenesAfectadas ?? 0) || 0,
+      totalAuditOrders: Number(item.totalAuditOrders ?? item.totalOrders ?? state.raw?.inventoryThermometer?.totalAuditOrders ?? 0) || 0,
+      affectedRatio: item.affectedRatio || item.ratio || "",
+      missingUnits: Number(item.missingUnits ?? item.unidadesFaltantes ?? item.shortageUnits ?? 0) || 0,
+      requiredUnits: Number(item.requiredUnits ?? item.unidadesRequeridas ?? 0) || 0,
+      availableUnits: Number(item.availableUnits ?? item.stockDisponible ?? item.available ?? 0) || 0,
+      orderTypes: Array.isArray(item.orderTypes) ? item.orderTypes.join(", ") : safeText(item.orderTypes || ""),
+      unit: item.unit || item.unitLabel || item.unidad || "%"
+    };
+  })
+    .filter(item => item.label !== "Sin información" && (item.affectedOrders > 0 || item.stockoutIndex > 0 || item.missingUnits > 0))
+    .sort((a, b) => b.affectedOrders - a.affectedOrders || b.missingUnits - a.missingUnits || b.stockoutIndex - a.stockoutIndex);
 }
 
 function getThermometerTotalAuditOrders(items) {
-  const rawTotal = state.raw?.inventoryThermometer?.totalAuditOrders
-    || items.find(item => item.totalAuditOrders)?.totalAuditOrders
-    || state.raw?.inventoryHealth?.totalAuditOrders
-    || state.raw?.summary?.totalAuditOrders
-    || 0;
-
-  const total = Number(rawTotal);
-
-  if (Number.isFinite(total) && total > 0) {
-    return total;
-  }
-
-  return Math.max(...items.map(item => item.affectedOrders), 1);
+  const fromRoot = Number(state.raw?.inventoryThermometer?.totalAuditOrders ?? state.raw?.inventoryThermometer?.totalOrders ?? 0) || 0;
+  const fromItems = Math.max(...items.map(item => Number(item.totalAuditOrders || 0)), 0);
+  return fromRoot || fromItems || Math.max(...items.map(item => Number(item.affectedOrders || 0)), 0);
 }
 
 function renderThermometerScale(totalAuditOrders) {
@@ -666,116 +684,58 @@ function renderThermometerScale(totalAuditOrders) {
   if (!scale) return;
 
   const total = Number(totalAuditOrders || 0);
+  const values = total > 0
+    ? [total, Math.round(total * .75), Math.round(total * .50), Math.round(total * .25), 0]
+    : [100, 75, 50, 25, 0];
 
-  if (!Number.isFinite(total) || total <= 0) {
-    scale.innerHTML = [0, 0, 0, 0, 0].map(value => `<span>${value}</span>`).join("");
-    return;
-  }
-
-  const labels = [
-    total,
-    Math.round(total * 0.75),
-    Math.round(total * 0.50),
-    Math.round(total * 0.25),
-    0
-  ];
-
-  scale.innerHTML = labels
-    .map(value => `<span>${formatNumber(value)}</span>`)
-    .join("");
+  scale.innerHTML = values.map(value => `<span>${formatNumber(value)}</span>`).join("");
 }
 
 function updateStockoutTitle(totalItems) {
-  const title = el.stockoutList
-    ?.closest(".stockout-content")
-    ?.querySelector("h4");
-
+  const title = document.querySelector(".stockout-content h4");
   if (!title) return;
-
-  title.textContent = totalItems > 0
-    ? `Todos los ítems con quiebre (${formatNumber(totalItems)})`
-    : "Ítems con quiebre";
+  title.textContent = totalItems ? `${formatNumber(totalItems)} ítems críticos detectados` : "Ítems críticos detectados";
 }
 
 function renderStockoutThermometer() {
   const items = normalizeStockoutItems();
 
   if (!items.length) {
-    renderEmptyStockout();
-    updateStockoutTitle(0);
     renderThermometerScale(0);
+    updateStockoutTitle(0);
+    renderEmptyStockout();
     return;
   }
 
   const totalAuditOrders = getThermometerTotalAuditOrders(items);
   const topAffectedOrders = Math.max(...items.map(item => item.affectedOrders), 1);
-  const thermometerLevel = percent(topAffectedOrders, totalAuditOrders);
+  const thermometerLevel = totalAuditOrders > 0 ? percent(topAffectedOrders, totalAuditOrders) : 0;
 
   renderThermometerScale(totalAuditOrders);
   updateStockoutTitle(items.length);
-
-  /*
-    El termómetro vertical se mueve según el ítem con más órdenes afectadas.
-    Ejemplo:
-    totalAuditOrders = 125
-    topAffectedOrders = 40
-    nivel visual = 32%
-  */
-  el.stockoutThermometer.style.setProperty(
-    "--level",
-    Math.min(Math.max(thermometerLevel, 0), 100)
-  );
-
+  el.stockoutThermometer.style.setProperty("--level", Math.min(Math.max(thermometerLevel, 0), 100));
   el.stockoutList.className = "stockout-list";
 
   el.stockoutList.innerHTML = items.map((item, index) => {
-    /*
-      Las barras horizontales se normalizan contra el mayor afectado.
-      Así se ve clara la comparación entre ítems, aunque el porcentaje real sea pequeño.
-    */
-    const width = percent(item.affectedOrders, topAffectedOrders);
-    const indexLabel = formatPercent(item.stockoutIndex);
-    const detailParts = [];
-
-    if (item.affectedRatio && item.affectedRatio !== "Sin información") {
-      detailParts.push(`${item.affectedRatio} órdenes`);
-    } else {
-      detailParts.push(`${formatNumber(item.affectedOrders)}/${formatNumber(totalAuditOrders)} órdenes`);
-    }
-
-    if (item.missingUnits) {
-      detailParts.push(`${formatNumber(item.missingUnits)} unid. faltantes`);
-    }
-
-    if (item.requiredUnits) {
-      detailParts.push(`${formatNumber(item.requiredUnits)} unid. requeridas`);
-    }
-
-    if (item.availableUnits || item.availableUnits === 0) {
-      detailParts.push(`${formatNumber(item.availableUnits)} stock disponible`);
-    }
-
-    if (item.orderTypes.length) {
-      detailParts.push(item.orderTypes.join(" / "));
-    }
-
-    const detailText = detailParts.join(" · ");
+    const width = percent(item.affectedOrders || item.stockoutIndex || item.missingUnits, topAffectedOrders || 1);
+    const ratio = item.affectedRatio || `${formatNumber(item.affectedOrders)}/${formatNumber(totalAuditOrders)} órdenes`;
+    const details = [
+      `Afectación: ${ratio}`,
+      `Índice: ${formatPercent(item.stockoutIndex)}%`,
+      `Faltantes: ${formatNumber(item.missingUnits)}`,
+      `Requeridas: ${formatNumber(item.requiredUnits)}`,
+      `Disponibles: ${formatNumber(item.availableUnits)}`,
+      item.orderTypes ? `Tipos: ${item.orderTypes}` : ""
+    ].filter(Boolean).join(" · ");
 
     return `
-      <div class="stockout-row risk-${index + 1}">
+      <div class="stockout-row risk-${Math.min(index + 1, 3)}" title="${escapeHtml(details)}">
         <span class="rank">${index + 1}</span>
-
-        <span class="stockout-name" title="${escapeHtml(detailText)}">
-          ${escapeHtml(item.label)}
-        </span>
-
-        <div class="stockout-track" title="${escapeHtml(detailText)}">
+        <span class="stockout-name" title="${escapeHtml(item.label)}">${escapeHtml(item.label)}</span>
+        <div class="stockout-track">
           <div class="stockout-fill" style="width:${Math.max(Math.min(width, 100), 3)}%"></div>
         </div>
-
-        <strong title="${escapeHtml(detailText)}">
-          ${formatNumber(item.affectedOrders)} ord · ${escapeHtml(indexLabel)}%
-        </strong>
+        <strong>${formatNumber(item.affectedOrders)} ord · ${formatPercent(item.stockoutIndex)}%</strong>
       </div>
     `;
   }).join("");
@@ -784,33 +744,38 @@ function renderStockoutThermometer() {
 function renderAnalytics() {
   renderCompliance();
   renderStockoutThermometer();
+  renderStatusDistribution();
 }
 
 function applyFilters({ preservePage = false } = {}) {
   const previousPage = state.page;
-
-  const search = el.searchInput.value.trim().toLowerCase();
+  const search = normalizeSearchText(el.searchInput.value);
   const status = el.statusFilter.value;
   const category = el.categoryFilter.value;
   const date = el.dateFilter.value;
 
   state.filtered = state.shipments.filter(item => {
+    const rawStatus = getRawStatus(item);
+    const rawCategory = getRawCategory(item);
+    const signedBy = getSignedByValue(item);
+
     const matchesSearch = !search || [
       item.order,
       item.waybill,
-      item.status,
-      item.category,
+      rawStatus,
+      rawCategory,
+      signedBy,
       item.lastEventLabel,
       item.lastEventDescription,
       item.customer,
       item.client,
       item.destination,
       item.destino
-    ].some(value => String(value || "").toLowerCase().includes(search));
+    ].some(value => normalizeSearchText(value).includes(search));
 
     return matchesSearch
-      && (!status || item.status === status)
-      && (!category || item.category === category)
+      && (!status || rawStatus === status)
+      && (!category || rawCategory === category)
       && (!date || item.lastEventDate === date);
   });
 
@@ -822,37 +787,6 @@ function applyFilters({ preservePage = false } = {}) {
     state.page = 1;
   }
 
-  renderTable();
-}
-
-function applyFilters() {
-  const search = el.searchInput.value.trim().toLowerCase();
-  const status = el.statusFilter.value;
-  const category = el.categoryFilter.value;
-  const date = el.dateFilter.value;
-
-  state.filtered = state.shipments.filter(item => {
-    const matchesSearch = !search || [
-      item.order,
-      item.waybill,
-      item.status,
-      item.category,
-      item.lastEventLabel,
-      item.lastEventDescription,
-      item.customer,
-      item.client,
-      item.destination,
-      item.destino
-    ].some(value => String(value || "").toLowerCase().includes(search));
-
-    return matchesSearch
-      && (!status || item.status === status)
-      && (!category || item.category === category)
-      && (!date || item.lastEventDate === date);
-  });
-
-  sortFiltered(false);
-  state.page = 1;
   renderTable();
 }
 
@@ -907,15 +841,17 @@ function renderTable() {
   el.ordersTable.innerHTML = visibleRows.map(item => {
     const shipmentId = getShipmentId(item);
     const selected = state.selectedShipmentId === shipmentId ? "selected" : "";
-    const statusClass = getStatusClass(item.status);
+    const rawStatus = getRawStatus(item);
+    const rawCategory = getRawCategory(item);
+    const statusClass = getStatusClass(rawStatus);
 
     return `
       <tr class="${selected}" data-shipment-id="${escapeHtml(shipmentId)}">
         <td>${escapeHtml(item.order)}</td>
         <td>${escapeHtml(item.waybill)}</td>
         <td>${escapeHtml(item.lastEventDate)}</td>
-        <td><span class="status-pill ${statusClass}">${escapeHtml(item.status)}</span></td>
-        <td>${escapeHtml(item.category)}</td>
+        <td><span class="status-pill ${statusClass}">${escapeHtml(rawStatus)}</span></td>
+        <td>${escapeHtml(rawCategory)}</td>
       </tr>
     `;
   }).join("");
@@ -936,7 +872,9 @@ function renderDetail(shipmentId) {
   state.selectedShipmentId = getShipmentId(item);
   renderTable();
 
-  const statusClass = getStatusClass(item.status);
+  const rawStatus = getRawStatus(item);
+  const rawCategory = getRawCategory(item);
+  const statusClass = getStatusClass(rawStatus);
   const destination = pickFirst(item.destination, item.destino, item.city, item.comuna, item.region, item.address);
   const customer = pickFirst(item.customer, item.client, item.cliente, state.raw?.source?.company);
   const signedBy = getSignedByValue(item);
@@ -957,22 +895,27 @@ function renderDetail(shipmentId) {
 
       <div class="detail-row">
         <span>Estado</span>
-        <strong><em class="status-pill ${statusClass}">${escapeHtml(item.status)}</em></strong>
+        <strong><em class="status-pill ${statusClass}">${escapeHtml(rawStatus)}</em></strong>
       </div>
 
       <div class="detail-row">
         <span>Categoría</span>
-        <strong>${escapeHtml(item.category)}</strong>
+        <strong>${escapeHtml(rawCategory)}</strong>
       </div>
 
       <div class="detail-row">
         <span>Último evento</span>
-        <strong>${escapeHtml(pickFirst(item.lastEventLabel, item.status))}</strong>
+        <strong>${escapeHtml(pickFirst(item.lastEventLabel, rawStatus))}</strong>
       </div>
 
       <div class="detail-row">
         <span>Fecha evento</span>
         <strong>${escapeHtml(item.lastEventDate)}</strong>
+      </div>
+
+      <div class="detail-row">
+        <span>Recibido por</span>
+        <strong>${signedBy ? escapeHtml(signedBy) : ""}</strong>
       </div>
 
       <div class="detail-row">
@@ -983,10 +926,6 @@ function renderDetail(shipmentId) {
       <div class="detail-row">
         <span>Destino</span>
         <strong>${escapeHtml(destination || "Sin información")}</strong>
-      </div>
-      <div class="detail-row">
-        <span>Signed by</span>
-        <strong>${signedBy ? escapeHtml(signedBy) : ""}</strong>
       </div>
     </div>
 
@@ -1014,8 +953,22 @@ function exportCsv() {
     return;
   }
 
-  const headers = ["order", "waybill", "lastEventDate", "status", "category", "lastEventLabel", "lastEventDescription"];
-  const rows = state.filtered.map(item => headers.map(header => `"${String(item[header] ?? "").replaceAll('"', '""')}"`).join(","));
+  const headers = ["order", "waybill", "lastEventDate", "status", "category", "signedBy", "lastEventLabel", "lastEventDescription"];
+  const rows = state.filtered.map(item => {
+    const values = {
+      order: item.order,
+      waybill: item.waybill,
+      lastEventDate: item.lastEventDate,
+      status: getRawStatus(item),
+      category: getRawCategory(item),
+      signedBy: getSignedByValue(item),
+      lastEventLabel: item.lastEventLabel,
+      lastEventDescription: item.lastEventDescription
+    };
+
+    return headers.map(header => `"${String(values[header] ?? "").replaceAll('"', '""')}"`).join(",");
+  });
+
   const csv = [headers.join(","), ...rows].join("\n");
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
@@ -1082,7 +1035,7 @@ function startDashboard() {
     state.started = true;
   }
 
-  resetDashboard("Esperando lectura del archivo JSON.");
+  resetDashboard("Esperando lectura de la fuente operativa.");
   loadData();
 
   window.clearInterval(state.autoRefreshTimer);
@@ -1097,41 +1050,12 @@ function stopDashboard() {
   resetDashboard("Sesión cerrada.");
 }
 
-
-function readStoredSession() {
-  try {
-    const rawSession = localStorage.getItem(AUTH_KEY);
-    if (!rawSession) return null;
-
-    const parsed = JSON.parse(rawSession);
-    if (!parsed || !parsed.username) {
-      localStorage.removeItem(AUTH_KEY);
-      return null;
-    }
-
-    return parsed;
-  } catch (error) {
-    localStorage.removeItem(AUTH_KEY);
-    return null;
-  }
-}
-
-function launchDashboardAfterLogin() {
-  setAuthenticatedView(true);
-
-  try {
-    startDashboard();
-  } catch (error) {
-    console.error("Lazarus inició sesión, pero el dashboard no pudo arrancar.", error);
-    showToast("Sesión iniciada. Actualiza la página con Ctrl + F5 si ves datos antiguos en caché.");
-  }
-}
-
 function initAuth() {
-  const session = readStoredSession();
+  const session = localStorage.getItem(AUTH_KEY);
 
   if (session) {
-    launchDashboardAfterLogin();
+    setAuthenticatedView(true);
+    startDashboard();
   } else {
     setAuthenticatedView(false);
   }
@@ -1161,7 +1085,8 @@ function initAuth() {
 
     el.loginError.textContent = "";
     el.loginPassword.value = "";
-    launchDashboardAfterLogin();
+    setAuthenticatedView(true);
+    startDashboard();
   });
 
   el.logoutBtn.addEventListener("click", () => {
@@ -1174,4 +1099,5 @@ function initAuth() {
     el.loginUser.focus();
   });
 }
+
 document.addEventListener("DOMContentLoaded", initAuth);

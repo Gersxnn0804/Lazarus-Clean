@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.2.0",
-  "generatedAt": "2026-07-17T09:10:25",
+  "generatedAt": "2026-07-17T10:26:31",
   "source": {
     "platform": "Polaris",
     "module": "Tracking",
@@ -22,28 +22,28 @@
   },
   "inventoryHealth": {
     "available": true,
-    "auditOrders": 62,
-    "fullFillOrders": 56,
+    "auditOrders": 64,
+    "fullFillOrders": 58,
     "noFillOrders": 6,
-    "healthPercentage": 90.32,
+    "healthPercentage": 90.62,
     "level": "GOOD"
   },
   "inventoryThermometer": {
     "available": true,
-    "generatedAt": "2026-07-17T09:10:25",
-    "totalAuditOrders": 62,
+    "generatedAt": "2026-07-17T10:26:31",
+    "totalAuditOrders": 64,
     "totalNoFillOrders": 6,
     "metric": "affected_orders_over_total_audit_orders",
     "topCriticalItems": [
       {
         "item": "10075178",
         "description": "PANTALON T PLANO 48R FEM 70LANA INDI",
-        "stockoutIndex": 9.68,
-        "value": 9.68,
+        "stockoutIndex": 9.38,
+        "value": 9.38,
         "unit": "%",
         "affectedOrders": 6,
-        "totalAuditOrders": 62,
-        "affectedRatio": "6/62",
+        "totalAuditOrders": 64,
+        "affectedRatio": "6/64",
         "missingUnits": 11,
         "requiredUnits": 11,
         "availableUnits": 0,
@@ -58,26 +58,27 @@
   },
   "supplyAudit": {
     "available": true,
-    "generatedAt": "2026-07-17T09:10:25",
+    "generatedAt": "2026-07-17T10:26:31",
     "summary": {
-      "totalOrders": 62,
-      "fullFill": 56,
+      "totalOrders": 64,
+      "fullFill": 58,
       "noFill": 6,
-      "fillRate": 90.32,
+      "fillRate": 90.62,
       "criticalSkus": 1,
       "missingUnits": 11
     },
     "metadata": {
       "source": "auto-atlas-resource-loader",
-      "lastProcessedAt": "2026-07-17T09:00:09",
+      "lastProcessedAt": "2026-07-17T10:25:44",
       "files": {
-        "order": "Atlas_Order_20260717_075913.csv",
-        "orderLine": "Atlas_OrderLine_20260717_075914.csv",
-        "inventory": "Atlas_ItemInventory_20260717_080134.csv"
+        "order": "Atlas_Order_20260717_090033.csv",
+        "orderLine": "Atlas_OrderLine_20260717_090034.csv",
+        "inventory": "Atlas_ItemInventory_20260717_090055.csv"
       }
     },
     "filters": {
       "orderTypes": [
+        "B2BJBA",
         "B2C"
       ]
     },
@@ -185,7 +186,7 @@
         "status": "FULL FILL",
         "reason": "Disponible",
         "requiredQty": 10,
-        "availableQty": 1540,
+        "availableQty": 1541,
         "missingQty": 0,
         "criticalSku": "OK",
         "totalLines": 5,
@@ -198,7 +199,7 @@
             "item": "100000000200002966",
             "description": "Polerón Algodón Azul Marino",
             "requiredQty": 1,
-            "availableQty": 356,
+            "availableQty": 357,
             "missingQty": 0,
             "status": "OK",
             "orderType": "B2C",
@@ -789,6 +790,392 @@
       },
       {
         "id": 8,
+        "order": "LT000000000000093713",
+        "client": "",
+        "orderType": "B2BJBA",
+        "order_type": "B2BJBA",
+        "destinationCity": "Ciudad de México",
+        "status": "FULL FILL",
+        "reason": "Disponible",
+        "requiredQty": 25,
+        "availableQty": 2947,
+        "missingQty": 0,
+        "criticalSku": "OK",
+        "totalLines": 15,
+        "shortageLines": 0,
+        "lines": [
+          {
+            "order": "LT000000000000093713",
+            "client": "",
+            "sku": "10072077",
+            "item": "10072077",
+            "description": "CARTERA U FEM 100 CUERO SINTETICO NEGRO",
+            "requiredQty": 1,
+            "availableQty": 210,
+            "missingQty": 0,
+            "status": "OK",
+            "orderType": "B2BJBA",
+            "order_type": "B2BJBA",
+            "destinationCity": "Ciudad de México"
+          },
+          {
+            "order": "LT000000000000093713",
+            "client": "",
+            "sku": "10073416",
+            "item": "10073416",
+            "description": "BLUSA TEJ PLANO 34R FEM 62,4ALGOD CORAL",
+            "requiredQty": 3,
+            "availableQty": 95,
+            "missingQty": 0,
+            "status": "OK",
+            "orderType": "B2BJBA",
+            "order_type": "B2BJBA",
+            "destinationCity": "Ciudad de México"
+          },
+          {
+            "order": "LT000000000000093713",
+            "client": "",
+            "sku": "10073442",
+            "item": "10073442",
+            "description": "BLUSA TEJ PLANO 34R FEM 62,4ALGOD CORAL",
+            "requiredQty": 3,
+            "availableQty": 116,
+            "missingQty": 0,
+            "status": "OK",
+            "orderType": "B2BJBA",
+            "order_type": "B2BJBA",
+            "destinationCity": "Ciudad de México"
+          },
+          {
+            "order": "LT000000000000093713",
+            "client": "",
+            "sku": "10074927",
+            "item": "10074927",
+            "description": "Cinturón Mujer",
+            "requiredQty": 1,
+            "availableQty": 86,
+            "missingQty": 0,
+            "status": "OK",
+            "orderType": "B2BJBA",
+            "order_type": "B2BJBA",
+            "destinationCity": "Ciudad de México"
+          },
+          {
+            "order": "LT000000000000093713",
+            "client": "",
+            "sku": "10075158",
+            "item": "10075158",
+            "description": "PANTALON T PLANO 36R FEM 70LANA AZUL",
+            "requiredQty": 2,
+            "availableQty": 149,
+            "missingQty": 0,
+            "status": "OK",
+            "orderType": "B2BJBA",
+            "order_type": "B2BJBA",
+            "destinationCity": "Ciudad de México"
+          },
+          {
+            "order": "LT000000000000093713",
+            "client": "",
+            "sku": "10075232",
+            "item": "10075232",
+            "description": "ABRIGO TEJ PLANO 34R FEM POLIE AZUL",
+            "requiredQty": 1,
+            "availableQty": 23,
+            "missingQty": 0,
+            "status": "OK",
+            "orderType": "B2BJBA",
+            "order_type": "B2BJBA",
+            "destinationCity": "Ciudad de México"
+          },
+          {
+            "order": "LT000000000000093713",
+            "client": "",
+            "sku": "10075282",
+            "item": "10075282",
+            "description": "BLAZER TEJ PLANO 36R FEM 70 LANA AZUL",
+            "requiredQty": 2,
+            "availableQty": 29,
+            "missingQty": 0,
+            "status": "OK",
+            "orderType": "B2BJBA",
+            "order_type": "B2BJBA",
+            "destinationCity": "Ciudad de México"
+          },
+          {
+            "order": "LT000000000000093713",
+            "client": "",
+            "sku": "10075590",
+            "item": "10075590",
+            "description": "PANUELO S FEM 100 POLIESTER INDIGO CORAL",
+            "requiredQty": 4,
+            "availableQty": 328,
+            "missingQty": 0,
+            "status": "OK",
+            "orderType": "B2BJBA",
+            "order_type": "B2BJBA",
+            "destinationCity": "Ciudad de México"
+          },
+          {
+            "order": "LT000000000000093713",
+            "client": "",
+            "sku": "10075612",
+            "item": "10075612",
+            "description": "FALDA LARGA T PLANO 36R FEM 70 LANA AZUL",
+            "requiredQty": 1,
+            "availableQty": 19,
+            "missingQty": 0,
+            "status": "OK",
+            "orderType": "B2BJBA",
+            "order_type": "B2BJBA",
+            "destinationCity": "Ciudad de México"
+          },
+          {
+            "order": "LT000000000000093713",
+            "client": "",
+            "sku": "10075795",
+            "item": "10075795",
+            "description": "SUETER FEMENINO ALGODON S AZUL MARINO",
+            "requiredQty": 1,
+            "availableQty": 542,
+            "missingQty": 0,
+            "status": "OK",
+            "orderType": "B2BJBA",
+            "order_type": "B2BJBA",
+            "destinationCity": "Ciudad de México"
+          },
+          {
+            "order": "LT000000000000093713",
+            "client": "",
+            "sku": "10075960",
+            "item": "10075960",
+            "description": "ZAPATO BALERIN 38 FEM NAPA CAUCHO NEGRO",
+            "requiredQty": 1,
+            "availableQty": 311,
+            "missingQty": 0,
+            "status": "OK",
+            "orderType": "B2BJBA",
+            "order_type": "B2BJBA",
+            "destinationCity": "Ciudad de México"
+          },
+          {
+            "order": "LT000000000000093713",
+            "client": "",
+            "sku": "10075968",
+            "item": "10075968",
+            "description": "Zapatos Mujer Taco Alto Brillante",
+            "requiredQty": 1,
+            "availableQty": 736,
+            "missingQty": 0,
+            "status": "OK",
+            "orderType": "B2BJBA",
+            "order_type": "B2BJBA",
+            "destinationCity": "Ciudad de México"
+          },
+          {
+            "order": "LT000000000000093713",
+            "client": "",
+            "sku": "10075987",
+            "item": "10075987",
+            "description": "CALZADO FEMENINO SUP 38 CUERO NAPA NEGRO",
+            "requiredQty": 1,
+            "availableQty": 131,
+            "missingQty": 0,
+            "status": "OK",
+            "orderType": "B2BJBA",
+            "order_type": "B2BJBA",
+            "destinationCity": "Ciudad de México"
+          },
+          {
+            "order": "LT000000000000093713",
+            "client": "",
+            "sku": "10076134",
+            "item": "10076134",
+            "description": "TAG U FEM ACERO NIQUELADO PLATEADO",
+            "requiredQty": 1,
+            "availableQty": 137,
+            "missingQty": 0,
+            "status": "OK",
+            "orderType": "B2BJBA",
+            "order_type": "B2BJBA",
+            "destinationCity": "Ciudad de México"
+          },
+          {
+            "order": "LT000000000000093713",
+            "client": "",
+            "sku": "10076219",
+            "item": "10076219",
+            "description": "BLAZER TEJ PLANO 36R FEM 70 LANA AZUL",
+            "requiredQty": 2,
+            "availableQty": 35,
+            "missingQty": 0,
+            "status": "OK",
+            "orderType": "B2BJBA",
+            "order_type": "B2BJBA",
+            "destinationCity": "Ciudad de México"
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "order": "LT000000000000094995",
+        "client": "",
+        "orderType": "B2BJBA",
+        "order_type": "B2BJBA",
+        "destinationCity": "Ciudad de México",
+        "status": "FULL FILL",
+        "reason": "Disponible",
+        "requiredQty": 18,
+        "availableQty": 2839,
+        "missingQty": 0,
+        "criticalSku": "OK",
+        "totalLines": 10,
+        "shortageLines": 0,
+        "lines": [
+          {
+            "order": "LT000000000000094995",
+            "client": "",
+            "sku": "100000000200002841",
+            "item": "100000000200002841",
+            "description": "Pantalones Desmontables Unisex Azul",
+            "requiredQty": 4,
+            "availableQty": 816,
+            "missingQty": 0,
+            "status": "OK",
+            "orderType": "B2BJBA",
+            "order_type": "B2BJBA",
+            "destinationCity": "Ciudad de México"
+          },
+          {
+            "order": "LT000000000000094995",
+            "client": "",
+            "sku": "100000000200002859",
+            "item": "100000000200002859",
+            "description": "Pantalón Térmicos Azul",
+            "requiredQty": 1,
+            "availableQty": 496,
+            "missingQty": 0,
+            "status": "OK",
+            "orderType": "B2BJBA",
+            "order_type": "B2BJBA",
+            "destinationCity": "Ciudad de México"
+          },
+          {
+            "order": "LT000000000000094995",
+            "client": "",
+            "sku": "100000000200002881",
+            "item": "100000000200002881",
+            "description": "Polera Manga Corta Unisex Azul",
+            "requiredQty": 3,
+            "availableQty": 93,
+            "missingQty": 0,
+            "status": "OK",
+            "orderType": "B2BJBA",
+            "order_type": "B2BJBA",
+            "destinationCity": "Ciudad de México"
+          },
+          {
+            "order": "LT000000000000094995",
+            "client": "",
+            "sku": "100000000200002906",
+            "item": "100000000200002906",
+            "description": "CAMISETA MALHA UNIS XL ALG AZUL M.LARGA",
+            "requiredQty": 3,
+            "availableQty": 49,
+            "missingQty": 0,
+            "status": "OK",
+            "orderType": "B2BJBA",
+            "order_type": "B2BJBA",
+            "destinationCity": "Ciudad de México"
+          },
+          {
+            "order": "LT000000000000094995",
+            "client": "",
+            "sku": "100000000200002922",
+            "item": "100000000200002922",
+            "description": "Pantalon Lluvia Unisex Amarillo",
+            "requiredQty": 1,
+            "availableQty": 334,
+            "missingQty": 0,
+            "status": "OK",
+            "orderType": "B2BJBA",
+            "order_type": "B2BJBA",
+            "destinationCity": "Ciudad de México"
+          },
+          {
+            "order": "LT000000000000094995",
+            "client": "",
+            "sku": "100000000200002931",
+            "item": "100000000200002931",
+            "description": "CAPA INTERIOR MALLA XXL FEM POLIE AZUL",
+            "requiredQty": 2,
+            "availableQty": 53,
+            "missingQty": 0,
+            "status": "OK",
+            "orderType": "B2BJBA",
+            "order_type": "B2BJBA",
+            "destinationCity": "Ciudad de México"
+          },
+          {
+            "order": "LT000000000000094995",
+            "client": "",
+            "sku": "100000000200002943",
+            "item": "100000000200002943",
+            "description": "Chaqueta Cortaviento Unisex Azul",
+            "requiredQty": 1,
+            "availableQty": 324,
+            "missingQty": 0,
+            "status": "OK",
+            "orderType": "B2BJBA",
+            "order_type": "B2BJBA",
+            "destinationCity": "Ciudad de México"
+          },
+          {
+            "order": "LT000000000000094995",
+            "client": "",
+            "sku": "100000000200002959",
+            "item": "100000000200002959",
+            "description": "Parka Térmica Unisex Azul",
+            "requiredQty": 1,
+            "availableQty": 172,
+            "missingQty": 0,
+            "status": "OK",
+            "orderType": "B2BJBA",
+            "order_type": "B2BJBA",
+            "destinationCity": "Ciudad de México"
+          },
+          {
+            "order": "LT000000000000094995",
+            "client": "",
+            "sku": "100000000200002966",
+            "item": "100000000200002966",
+            "description": "Polerón Algodón Azul Marino",
+            "requiredQty": 1,
+            "availableQty": 357,
+            "missingQty": 0,
+            "status": "OK",
+            "orderType": "B2BJBA",
+            "order_type": "B2BJBA",
+            "destinationCity": "Ciudad de México"
+          },
+          {
+            "order": "LT000000000000094995",
+            "client": "",
+            "sku": "100000000200004154",
+            "item": "100000000200004154",
+            "description": "Chaqueta Lluvia Unisex Amarillo",
+            "requiredQty": 1,
+            "availableQty": 145,
+            "missingQty": 0,
+            "status": "OK",
+            "orderType": "B2BJBA",
+            "order_type": "B2BJBA",
+            "destinationCity": "Ciudad de México"
+          }
+        ]
+      },
+      {
+        "id": 10,
         "order": "LT000000000000095269",
         "client": "",
         "orderType": "B2C",
@@ -820,7 +1207,7 @@
         ]
       },
       {
-        "id": 9,
+        "id": 11,
         "order": "LT000000000000095275",
         "client": "",
         "orderType": "B2C",
@@ -852,7 +1239,7 @@
         ]
       },
       {
-        "id": 10,
+        "id": 12,
         "order": "LT000000000000095277",
         "client": "",
         "orderType": "B2C",
@@ -884,7 +1271,7 @@
         ]
       },
       {
-        "id": 11,
+        "id": 13,
         "order": "LT000000000000095279",
         "client": "",
         "orderType": "B2C",
@@ -916,7 +1303,7 @@
         ]
       },
       {
-        "id": 12,
+        "id": 14,
         "order": "LT000000000000095280",
         "client": "",
         "orderType": "B2C",
@@ -948,7 +1335,7 @@
         ]
       },
       {
-        "id": 13,
+        "id": 15,
         "order": "LT000000000000095284",
         "client": "",
         "orderType": "B2C",
@@ -980,7 +1367,7 @@
         ]
       },
       {
-        "id": 14,
+        "id": 16,
         "order": "LT000000000000096282",
         "client": "",
         "orderType": "B2C",
@@ -1012,7 +1399,7 @@
         ]
       },
       {
-        "id": 15,
+        "id": 17,
         "order": "LT000000000000096284",
         "client": "",
         "orderType": "B2C",
@@ -1044,7 +1431,7 @@
         ]
       },
       {
-        "id": 16,
+        "id": 18,
         "order": "LT000000000000096295",
         "client": "",
         "orderType": "B2C",
@@ -1076,7 +1463,7 @@
         ]
       },
       {
-        "id": 17,
+        "id": 19,
         "order": "LT000000000000096300",
         "client": "",
         "orderType": "B2C",
@@ -1108,7 +1495,7 @@
         ]
       },
       {
-        "id": 18,
+        "id": 20,
         "order": "LT000000000000096301",
         "client": "",
         "orderType": "B2C",
@@ -1140,7 +1527,7 @@
         ]
       },
       {
-        "id": 19,
+        "id": 21,
         "order": "LT000000000000096309",
         "client": "",
         "orderType": "B2C",
@@ -1172,7 +1559,7 @@
         ]
       },
       {
-        "id": 20,
+        "id": 22,
         "order": "LT000000000000096311",
         "client": "",
         "orderType": "B2C",
@@ -1204,7 +1591,7 @@
         ]
       },
       {
-        "id": 21,
+        "id": 23,
         "order": "LT000000000000096313",
         "client": "",
         "orderType": "B2C",
@@ -1278,7 +1665,7 @@
         ]
       },
       {
-        "id": 22,
+        "id": 24,
         "order": "LT000000000000096334",
         "client": "",
         "orderType": "B2C",
@@ -1310,7 +1697,7 @@
         ]
       },
       {
-        "id": 23,
+        "id": 25,
         "order": "LT000000000000096339",
         "client": "",
         "orderType": "B2C",
@@ -1370,7 +1757,7 @@
         ]
       },
       {
-        "id": 24,
+        "id": 26,
         "order": "LT000000000000096340",
         "client": "",
         "orderType": "B2C",
@@ -1444,7 +1831,7 @@
         ]
       },
       {
-        "id": 25,
+        "id": 27,
         "order": "LT000000000000096356",
         "client": "",
         "orderType": "B2C",
@@ -1453,7 +1840,7 @@
         "status": "FULL FILL",
         "reason": "Disponible",
         "requiredQty": 1,
-        "availableQty": 209,
+        "availableQty": 210,
         "missingQty": 0,
         "criticalSku": "OK",
         "totalLines": 1,
@@ -1466,7 +1853,7 @@
             "item": "10072077",
             "description": "CARTERA U FEM 100 CUERO SINTETICO NEGRO",
             "requiredQty": 1,
-            "availableQty": 209,
+            "availableQty": 210,
             "missingQty": 0,
             "status": "OK",
             "orderType": "B2C",
@@ -1476,7 +1863,7 @@
         ]
       },
       {
-        "id": 26,
+        "id": 28,
         "order": "LT000000000000096364",
         "client": "",
         "orderType": "B2C",
@@ -1485,7 +1872,7 @@
         "status": "FULL FILL",
         "reason": "Disponible",
         "requiredQty": 1,
-        "availableQty": 209,
+        "availableQty": 210,
         "missingQty": 0,
         "criticalSku": "OK",
         "totalLines": 1,
@@ -1498,7 +1885,7 @@
             "item": "10072077",
             "description": "CARTERA U FEM 100 CUERO SINTETICO NEGRO",
             "requiredQty": 1,
-            "availableQty": 209,
+            "availableQty": 210,
             "missingQty": 0,
             "status": "OK",
             "orderType": "B2C",
@@ -1508,7 +1895,7 @@
         ]
       },
       {
-        "id": 27,
+        "id": 29,
         "order": "LT000000000000096366",
         "client": "",
         "orderType": "B2C",
@@ -1517,7 +1904,7 @@
         "status": "FULL FILL",
         "reason": "Disponible",
         "requiredQty": 18,
-        "availableQty": 2546,
+        "availableQty": 2548,
         "missingQty": 0,
         "criticalSku": "OK",
         "totalLines": 11,
@@ -1530,7 +1917,7 @@
             "item": "10072077",
             "description": "CARTERA U FEM 100 CUERO SINTETICO NEGRO",
             "requiredQty": 1,
-            "availableQty": 209,
+            "availableQty": 210,
             "missingQty": 0,
             "status": "OK",
             "orderType": "B2C",
@@ -1656,7 +2043,7 @@
             "item": "10075987",
             "description": "CALZADO FEMENINO SUP 38 CUERO NAPA NEGRO",
             "requiredQty": 1,
-            "availableQty": 130,
+            "availableQty": 131,
             "missingQty": 0,
             "status": "OK",
             "orderType": "B2C",
@@ -1680,7 +2067,7 @@
         ]
       },
       {
-        "id": 28,
+        "id": 30,
         "order": "LT000000000000096379",
         "client": "",
         "orderType": "B2C",
@@ -1726,7 +2113,7 @@
         ]
       },
       {
-        "id": 29,
+        "id": 31,
         "order": "LT000000000000096382",
         "client": "",
         "orderType": "B2C",
@@ -1758,7 +2145,7 @@
         ]
       },
       {
-        "id": 30,
+        "id": 32,
         "order": "LT000000000000096383",
         "client": "",
         "orderType": "B2C",
@@ -1790,7 +2177,7 @@
         ]
       },
       {
-        "id": 31,
+        "id": 33,
         "order": "LT000000000000096385",
         "client": "",
         "orderType": "B2C",
@@ -1850,7 +2237,7 @@
         ]
       },
       {
-        "id": 32,
+        "id": 34,
         "order": "LT000000000000096394",
         "client": "",
         "orderType": "B2C",
@@ -1859,7 +2246,7 @@
         "status": "FULL FILL",
         "reason": "Disponible",
         "requiredQty": 7,
-        "availableQty": 245,
+        "availableQty": 246,
         "missingQty": 0,
         "criticalSku": "OK",
         "totalLines": 2,
@@ -1872,7 +2259,7 @@
             "item": "10072077",
             "description": "CARTERA U FEM 100 CUERO SINTETICO NEGRO",
             "requiredQty": 1,
-            "availableQty": 209,
+            "availableQty": 210,
             "missingQty": 0,
             "status": "OK",
             "orderType": "B2C",
@@ -1896,7 +2283,7 @@
         ]
       },
       {
-        "id": 33,
+        "id": 35,
         "order": "LT000000000000096395",
         "client": "",
         "orderType": "B2C",
@@ -1928,7 +2315,7 @@
         ]
       },
       {
-        "id": 34,
+        "id": 36,
         "order": "LT000000000000096397",
         "client": "",
         "orderType": "B2C",
@@ -1960,7 +2347,7 @@
         ]
       },
       {
-        "id": 35,
+        "id": 37,
         "order": "LT000000000000096402",
         "client": "",
         "orderType": "B2C",
@@ -2034,7 +2421,7 @@
         ]
       },
       {
-        "id": 36,
+        "id": 38,
         "order": "LT000000000000096403",
         "client": "",
         "orderType": "B2C",
@@ -2043,7 +2430,7 @@
         "status": "FULL FILL",
         "reason": "Disponible",
         "requiredQty": 3,
-        "availableQty": 881,
+        "availableQty": 882,
         "missingQty": 0,
         "criticalSku": "OK",
         "totalLines": 3,
@@ -2084,7 +2471,7 @@
             "item": "10075960",
             "description": "ZAPATO BALERIN 38 FEM NAPA CAUCHO NEGRO",
             "requiredQty": 1,
-            "availableQty": 310,
+            "availableQty": 311,
             "missingQty": 0,
             "status": "OK",
             "orderType": "B2C",
@@ -2094,7 +2481,7 @@
         ]
       },
       {
-        "id": 37,
+        "id": 39,
         "order": "LT000000000000096410",
         "client": "",
         "orderType": "B2C",
@@ -2252,7 +2639,7 @@
         ]
       },
       {
-        "id": 38,
+        "id": 40,
         "order": "LT000000000000096424",
         "client": "",
         "orderType": "B2C",
@@ -2284,7 +2671,7 @@
         ]
       },
       {
-        "id": 39,
+        "id": 41,
         "order": "LT000000000000096444",
         "client": "",
         "orderType": "B2C",
@@ -2293,7 +2680,7 @@
         "status": "FULL FILL",
         "reason": "Disponible",
         "requiredQty": 3,
-        "availableQty": 642,
+        "availableQty": 643,
         "missingQty": 0,
         "criticalSku": "OK",
         "totalLines": 2,
@@ -2306,7 +2693,7 @@
             "item": "10072077",
             "description": "CARTERA U FEM 100 CUERO SINTETICO NEGRO",
             "requiredQty": 1,
-            "availableQty": 209,
+            "availableQty": 210,
             "missingQty": 0,
             "status": "OK",
             "orderType": "B2C",
@@ -2330,7 +2717,7 @@
         ]
       },
       {
-        "id": 40,
+        "id": 42,
         "order": "LT000000000000096471",
         "client": "",
         "orderType": "B2C",
@@ -2362,7 +2749,7 @@
         ]
       },
       {
-        "id": 41,
+        "id": 43,
         "order": "LT000000000000096480",
         "client": "",
         "orderType": "B2C",
@@ -2394,7 +2781,7 @@
         ]
       },
       {
-        "id": 42,
+        "id": 44,
         "order": "LT000000000000096492",
         "client": "",
         "orderType": "B2C",
@@ -2426,7 +2813,7 @@
         ]
       },
       {
-        "id": 43,
+        "id": 45,
         "order": "LT000000000000096499",
         "client": "",
         "orderType": "B2C",
@@ -2458,7 +2845,7 @@
         ]
       },
       {
-        "id": 44,
+        "id": 46,
         "order": "LT000000000000096544",
         "client": "",
         "orderType": "B2C",
@@ -2490,7 +2877,7 @@
         ]
       },
       {
-        "id": 45,
+        "id": 47,
         "order": "LT000000000000096547",
         "client": "",
         "orderType": "B2C",
@@ -2522,7 +2909,7 @@
         ]
       },
       {
-        "id": 46,
+        "id": 48,
         "order": "LT000000000000096548",
         "client": "",
         "orderType": "B2C",
@@ -2568,7 +2955,7 @@
         ]
       },
       {
-        "id": 47,
+        "id": 49,
         "order": "LT000000000000096559",
         "client": "",
         "orderType": "B2C",
@@ -2600,7 +2987,7 @@
         ]
       },
       {
-        "id": 48,
+        "id": 50,
         "order": "LT000000000000096561",
         "client": "",
         "orderType": "B2C",
@@ -2758,7 +3145,7 @@
         ]
       },
       {
-        "id": 49,
+        "id": 51,
         "order": "LT000000000000096563",
         "client": "",
         "orderType": "B2C",
@@ -2790,7 +3177,7 @@
         ]
       },
       {
-        "id": 50,
+        "id": 52,
         "order": "LT000000000000096564",
         "client": "",
         "orderType": "B2C",
@@ -2836,7 +3223,7 @@
         ]
       },
       {
-        "id": 51,
+        "id": 53,
         "order": "LT000000000000096605",
         "client": "",
         "orderType": "B2C",
@@ -2882,7 +3269,7 @@
         ]
       },
       {
-        "id": 52,
+        "id": 54,
         "order": "LT000000000000096616",
         "client": "",
         "orderType": "B2C",
@@ -3040,7 +3427,7 @@
         ]
       },
       {
-        "id": 53,
+        "id": 55,
         "order": "LT000000000000096622",
         "client": "",
         "orderType": "B2C",
@@ -3100,7 +3487,7 @@
         ]
       },
       {
-        "id": 54,
+        "id": 56,
         "order": "LT000000000000096638",
         "client": "",
         "orderType": "B2C",
@@ -3132,7 +3519,7 @@
         ]
       },
       {
-        "id": 55,
+        "id": 57,
         "order": "LT000000000000096643",
         "client": "",
         "orderType": "B2C",
@@ -3164,7 +3551,7 @@
         ]
       },
       {
-        "id": 56,
+        "id": 58,
         "order": "LT000000000000096666",
         "client": "",
         "orderType": "B2C",
@@ -3322,7 +3709,7 @@
         ]
       },
       {
-        "id": 57,
+        "id": 59,
         "order": "LT000000000000096679",
         "client": "",
         "orderType": "B2C",
@@ -3354,7 +3741,7 @@
         ]
       },
       {
-        "id": 58,
+        "id": 60,
         "order": "LT000000000000096684",
         "client": "",
         "orderType": "B2C",
@@ -3363,7 +3750,7 @@
         "status": "FULL FILL",
         "reason": "Disponible",
         "requiredQty": 18,
-        "availableQty": 3398,
+        "availableQty": 3404,
         "missingQty": 0,
         "criticalSku": "OK",
         "totalLines": 11,
@@ -3376,7 +3763,7 @@
             "item": "100000000200002859",
             "description": "Pantalón Térmicos Azul",
             "requiredQty": 1,
-            "availableQty": 495,
+            "availableQty": 496,
             "missingQty": 0,
             "status": "OK",
             "orderType": "B2C",
@@ -3390,7 +3777,7 @@
             "item": "100000000200002922",
             "description": "Pantalon Lluvia Unisex Amarillo",
             "requiredQty": 1,
-            "availableQty": 333,
+            "availableQty": 334,
             "missingQty": 0,
             "status": "OK",
             "orderType": "B2C",
@@ -3418,7 +3805,7 @@
             "item": "100000000200002943",
             "description": "Chaqueta Cortaviento Unisex Azul",
             "requiredQty": 1,
-            "availableQty": 323,
+            "availableQty": 324,
             "missingQty": 0,
             "status": "OK",
             "orderType": "B2C",
@@ -3432,7 +3819,7 @@
             "item": "100000000200002959",
             "description": "Parka Térmica Unisex Azul",
             "requiredQty": 1,
-            "availableQty": 171,
+            "availableQty": 172,
             "missingQty": 0,
             "status": "OK",
             "orderType": "B2C",
@@ -3446,7 +3833,7 @@
             "item": "100000000200002966",
             "description": "Polerón Algodón Azul Marino",
             "requiredQty": 1,
-            "availableQty": 356,
+            "availableQty": 357,
             "missingQty": 0,
             "status": "OK",
             "orderType": "B2C",
@@ -3460,7 +3847,7 @@
             "item": "100000000200004154",
             "description": "Chaqueta Lluvia Unisex Amarillo",
             "requiredQty": 1,
-            "availableQty": 144,
+            "availableQty": 145,
             "missingQty": 0,
             "status": "OK",
             "orderType": "B2C",
@@ -3526,7 +3913,7 @@
         ]
       },
       {
-        "id": 59,
+        "id": 61,
         "order": "LT000000000000096692",
         "client": "",
         "orderType": "B2C",
@@ -3572,7 +3959,7 @@
         ]
       },
       {
-        "id": 60,
+        "id": 62,
         "order": "LT000000000000096694",
         "client": "",
         "orderType": "B2C",
@@ -3604,7 +3991,7 @@
         ]
       },
       {
-        "id": 61,
+        "id": 63,
         "order": "LT000000000000096695",
         "client": "",
         "orderType": "B2C",
@@ -3664,7 +4051,7 @@
         ]
       },
       {
-        "id": 62,
+        "id": 64,
         "order": "LT000000000000096700",
         "client": "",
         "orderType": "B2C",
@@ -3712,7 +4099,7 @@
     ],
     "stockBreaks": {
       "available": true,
-      "totalOrders": 62,
+      "totalOrders": 64,
       "totalNoFillOrders": 6,
       "totalShortageLines": 6,
       "missingUnits": 11,
@@ -3976,7 +4363,7 @@
   },
   "stockBreaks": {
     "available": true,
-    "totalOrders": 62,
+    "totalOrders": 64,
     "totalNoFillOrders": 6,
     "totalShortageLines": 6,
     "missingUnits": 11,

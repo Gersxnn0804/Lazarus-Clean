@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.2.0",
-  "generatedAt": "2026-07-20T15:10:37",
+  "generatedAt": "2026-07-20T16:10:50",
   "source": {
     "platform": "Polaris",
     "module": "Tracking",
@@ -8,17 +8,17 @@
   },
   "summary": {
     "totalShipments": 6071,
-    "delivered": 5928,
-    "inTransit": 17,
-    "scheduled": 1,
+    "delivered": 5932,
+    "inTransit": 14,
+    "scheduled": 0,
     "retry": 14,
     "wrongAddress": 2,
     "returns": 14,
     "incidents": 14,
     "critical": 3,
-    "signedByCaptured": 5900,
-    "signedByResolved": 5900,
-    "deliveredWithoutSignedBy": 28
+    "signedByCaptured": 5906,
+    "signedByResolved": 5906,
+    "deliveredWithoutSignedBy": 26
   },
   "inventoryHealth": {
     "available": true,
@@ -30,7 +30,7 @@
   },
   "inventoryThermometer": {
     "available": true,
-    "generatedAt": "2026-07-20T15:10:37",
+    "generatedAt": "2026-07-20T16:10:50",
     "totalAuditOrders": 47,
     "totalNoFillOrders": 6,
     "metric": "affected_orders_over_total_audit_orders",
@@ -58,7 +58,7 @@
   },
   "supplyAudit": {
     "available": true,
-    "generatedAt": "2026-07-20T15:10:37",
+    "generatedAt": "2026-07-20T16:10:50",
     "summary": {
       "totalOrders": 47,
       "fullFill": 41,
@@ -69,11 +69,11 @@
     },
     "metadata": {
       "source": "auto-atlas-resource-loader",
-      "lastProcessedAt": "2026-07-20T15:00:56",
+      "lastProcessedAt": "2026-07-20T16:00:46",
       "files": {
-        "order": "Atlas_Order_20260720_145106.csv",
-        "orderLine": "Atlas_OrderLine_20260720_145107.csv",
-        "inventory": "Atlas_ItemInventory_20260720_145132.csv"
+        "order": "Atlas_Order_20260720_155054.csv",
+        "orderLine": "Atlas_OrderLine_20260720_155055.csv",
+        "inventory": "Atlas_ItemInventory_20260720_155119.csv"
       }
     },
     "filters": {
@@ -645,7 +645,7 @@
         "status": "FULL FILL",
         "reason": "Disponible",
         "requiredQty": 10,
-        "availableQty": 5183,
+        "availableQty": 5315,
         "missingQty": 0,
         "criticalSku": "OK",
         "totalLines": 10,
@@ -700,7 +700,7 @@
             "item": "100000000200002901",
             "description": "Polera Manga Larga Unisex Indigo",
             "requiredQty": 1,
-            "availableQty": 466,
+            "availableQty": 598,
             "missingQty": 0,
             "status": "OK",
             "orderType": "B2C",
@@ -2627,7 +2627,7 @@
         "status": "FULL FILL",
         "reason": "Disponible",
         "requiredQty": 20,
-        "availableQty": 4007,
+        "availableQty": 4189,
         "missingQty": 0,
         "criticalSku": "OK",
         "totalLines": 10,
@@ -2682,7 +2682,7 @@
             "item": "100000000200002903",
             "description": "Polera Manga Larga Unisex Indigo",
             "requiredQty": 4,
-            "availableQty": 226,
+            "availableQty": 408,
             "missingQty": 0,
             "status": "OK",
             "orderType": "B2C",
@@ -3578,14 +3578,14 @@
       "order": "LT000000000000096093",
       "waybill": "8454626541",
       "lastEventDate": "2026-07-20",
-      "status": "PROGRAMADO",
-      "category": "Pendiente",
+      "status": "ENTREGADO",
+      "category": "Finalizado",
       "orderType": "B2C",
       "order_type": "B2C",
-      "signedBy": "",
-      "signedByRaw": "",
-      "lastEventLabel": "PROGRAMADO",
-      "lastEventDescription": "La entrega ha sido reprogramada para la siguiente fecha."
+      "signedBy": "guillermo.castilli",
+      "signedByRaw": "guillermo.castilli",
+      "lastEventLabel": "ENTREGADO",
+      "lastEventDescription": "Shipment delivered ok"
     },
     {
       "order": "LT000000000000095901",
@@ -3855,10 +3855,10 @@
       "category": "Finalizado",
       "orderType": "B2C",
       "order_type": "B2C",
-      "signedBy": "No firma",
-      "signedByRaw": "",
+      "signedBy": "lucianis das concerje",
+      "signedByRaw": "lucianis das concerje",
       "lastEventLabel": "ENTREGADO",
-      "lastEventDescription": "With delivery courier"
+      "lastEventDescription": "Shipment delivered ok"
     },
     {
       "order": "LT000000000000095814",
@@ -3929,14 +3929,14 @@
       "order": "LT000000000000096037",
       "waybill": "3731277793",
       "lastEventDate": "2026-07-20",
-      "status": "EN PROCESO",
-      "category": "En Tránsito",
+      "status": "ENTREGADO",
+      "category": "Finalizado",
       "orderType": "B2C",
       "order_type": "B2C",
-      "signedBy": "",
-      "signedByRaw": "",
-      "lastEventLabel": "EN PROCESO",
-      "lastEventDescription": "Envío en ruta  para su entrega."
+      "signedBy": "Ramn fierros",
+      "signedByRaw": "Ramn fierros",
+      "lastEventLabel": "ENTREGADO",
+      "lastEventDescription": "Shipment delivered ok"
     },
     {
       "order": "LT000000000000096047",
@@ -4072,27 +4072,27 @@
       "order": "LT000000000000095981",
       "waybill": "7891827333",
       "lastEventDate": "2026-07-20",
-      "status": "EN PROCESO",
-      "category": "En Tránsito",
+      "status": "ENTREGADO",
+      "category": "Finalizado",
       "orderType": "B2C",
       "order_type": "B2C",
-      "signedBy": "",
-      "signedByRaw": "",
-      "lastEventLabel": "EN PROCESO",
-      "lastEventDescription": "Envío en ruta  para su entrega."
+      "signedBy": "Flix Avils portera",
+      "signedByRaw": "Flix Avils portera",
+      "lastEventLabel": "ENTREGADO",
+      "lastEventDescription": "Shipment delivered ok"
     },
     {
       "order": "LT000000000000095899",
       "waybill": "7891818384",
       "lastEventDate": "2026-07-20",
-      "status": "EN PROCESO",
-      "category": "En Tránsito",
+      "status": "ENTREGADO",
+      "category": "Finalizado",
       "orderType": "B2C",
       "order_type": "B2C",
-      "signedBy": "",
-      "signedByRaw": "",
-      "lastEventLabel": "EN PROCESO",
-      "lastEventDescription": "Envío en ruta  para su entrega."
+      "signedBy": "Hugo Escalona Csje",
+      "signedByRaw": "Hugo Escalona Csje",
+      "lastEventLabel": "ENTREGADO",
+      "lastEventDescription": "Shipment delivered ok"
     },
     {
       "order": "LT000000000000096228",
@@ -4518,10 +4518,10 @@
       "category": "Finalizado",
       "orderType": "B2C",
       "order_type": "B2C",
-      "signedBy": "No firma",
-      "signedByRaw": "",
+      "signedBy": "Merida Quiones csj",
+      "signedByRaw": "Merida Quiones csj",
       "lastEventLabel": "ENTREGADO",
-      "lastEventDescription": "With delivery courier"
+      "lastEventDescription": "Shipment delivered ok"
     },
     {
       "order": "LT000000000000096142",
